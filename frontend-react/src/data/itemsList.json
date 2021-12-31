@@ -1,0 +1,51 @@
+[
+    {
+        "id": "1",
+        "itemName": "item1",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 1"
+    },
+    {
+        "id": "2",
+        "itemName": "item2",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 2"
+    },
+    {
+        "id": "3",
+        "itemName": "item3",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 3"
+    },
+    {
+        "id": "4",
+        "itemName": "item4",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 4"
+    },
+    {
+        "id": "4",
+        "itemName": "item4",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 4"
+    },
+    {
+        "id": "4",
+        "itemName": "item4",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 4"
+    },
+    {
+        "id": "4",
+        "itemName": "item4",
+        "itemImageUrl": "",
+        "itemPrice": "00.00Rs",
+        "itemDescription": "Sample Item 4"
+    }
+]
