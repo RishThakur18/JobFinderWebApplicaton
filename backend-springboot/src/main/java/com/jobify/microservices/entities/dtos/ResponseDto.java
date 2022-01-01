@@ -15,5 +15,8 @@ import java.io.Serializable;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ResponseDto implements Serializable {
     private String message;
+    private String exception;
+    private String reason;
+    private String token;
     private Object data;
 }

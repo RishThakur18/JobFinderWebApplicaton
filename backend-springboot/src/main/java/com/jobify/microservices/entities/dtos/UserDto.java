@@ -9,25 +9,28 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
+import static com.jobify.microservices.utilities.StaticStringUtility.NOT_BLANK;
+import static com.jobify.microservices.utilities.StaticStringUtility.NOT_NULL;
+
 @Data
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class UserDto {
     private String id;
 
-    @NotBlank(message = "firstname can not be empty")
+    @NotBlank(message = "firstname" + NOT_BLANK)
     private String firstName;
 
-    @NotBlank(message = "lastname can not be empty")
+    @NotBlank(message = "lastname" + NOT_BLANK)
     private String lastName;
 
-    @NotBlank(message = "email can not be empty")
+    @NotBlank(message = "email" + NOT_BLANK)
     private String email;
 
-    @NotBlank(message = "password can not be empty")
+    @NotBlank(message = "password" + NOT_BLANK)
     private String password;
 
-    @NotNull(message = "role can not be null")
+    @NotNull(message = "role" + NOT_NULL)
     private List<UserRole> role;
 
     String getFullName(){

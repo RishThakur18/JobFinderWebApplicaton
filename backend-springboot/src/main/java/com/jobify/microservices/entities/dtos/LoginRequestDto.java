@@ -1,0 +1,18 @@
+package com.jobify.microservices.entities.dtos;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import javax.validation.constraints.NotBlank;
+import static com.jobify.microservices.utilities.StaticStringUtility.NOT_BLANK;
+
+
+@Data
+@AllArgsConstructor
+public class LoginRequestDto {
+
+    @NotBlank(message = "email" + NOT_BLANK)
+    private String email;
+
+    @NotBlank(message = "password" + NOT_BLANK)
+    private String password;
+}

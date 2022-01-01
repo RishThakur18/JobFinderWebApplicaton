@@ -4,9 +4,11 @@ import com.jobify.microservices.entities.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.data.mongodb.core.index.Indexed;
 
 import java.util.Collection;
 import java.util.List;
@@ -16,9 +18,12 @@ import java.util.List;
 @Builder
 @Document(collection = "user_details")
 public class User implements UserDetails {
+    @Id
     private String id;
     private String firstName;
     private String lastName;
+
+    @Indexed(unique =true ,background = true)
     private String email;
     private String password;
     private long created;

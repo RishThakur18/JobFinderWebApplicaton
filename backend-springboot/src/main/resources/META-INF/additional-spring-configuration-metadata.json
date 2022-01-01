@@ -1,0 +1,8 @@
+{
+  "properties": [
+    {
+      "name": "ACCESS_TOKEN_VALIDITY_SECONDS",
+      "type": "java.lang.String",
+      "description": "Description for ACCESS_TOKEN_VALIDITY_SECONDS."
+  }
+] }

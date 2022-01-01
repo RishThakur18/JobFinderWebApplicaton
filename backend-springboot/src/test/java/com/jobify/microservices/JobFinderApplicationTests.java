@@ -1,4 +1,4 @@
-package com.rishi.jobFinder.jobFinder;
+package com.jobify.microservices;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
