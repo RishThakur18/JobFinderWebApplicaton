@@ -3,7 +3,7 @@ package com.jobify.microservices.entities.dtos;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import javax.validation.constraints.NotBlank;
-import static com.jobify.microservices.utilities.StaticStringUtility.NOT_BLANK;
+import static com.jobify.microservices.utilities.StaticConstantsUtil.NOT_BLANK;
 
 
 @Data

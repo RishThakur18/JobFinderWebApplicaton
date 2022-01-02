@@ -5,6 +5,7 @@ import com.jobify.microservices.entities.dtos.ResponseDto;
 import com.jobify.microservices.entities.dtos.UserDto;
 import com.jobify.microservices.services.AuthService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
@@ -14,7 +15,7 @@ import reactor.core.publisher.Mono;
 public class AuthController {
     private final AuthService authService;
 
-    @PostMapping(value ="/signup")
+    @PostMapping(value ="/signup", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseDto> signUp(@RequestBody UserDto userDto) {
         return authService.signup(userDto)
                 .map(data -> ResponseDto
@@ -24,7 +25,7 @@ public class AuthController {
                         .build());
     }
 
-    @PostMapping(value = "/login")
+    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseDto> logIn(@RequestBody LoginRequestDto loginRequestDto) {
         return authService.login(loginRequestDto)
                 .map(token -> ResponseDto

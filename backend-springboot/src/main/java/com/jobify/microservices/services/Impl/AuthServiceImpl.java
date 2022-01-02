@@ -9,25 +9,19 @@ import com.jobify.microservices.exceptionHandling.customExceptions.UserNotFoundE
 import com.jobify.microservices.exceptionHandling.customExceptions.WrongCredentialsException;
 import com.jobify.microservices.repositories.UserRepo;
 import com.jobify.microservices.services.AuthService;
-import com.jobify.microservices.utilities.JwtTokenUtil;
+import com.jobify.microservices.security.JwtTokenUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.security.authentication.ReactiveAuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
-import java.util.Collections;
 import java.util.Date;
 
 @Log4j2
 @RequiredArgsConstructor
 @Service
-public class AuthServiceImpl implements AuthService, ReactiveAuthenticationManager {
+public class AuthServiceImpl implements AuthService{
 
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
@@ -74,21 +68,4 @@ public class AuthServiceImpl implements AuthService, ReactiveAuthenticationManag
                 .filter(savedUser -> passwordEncoder.matches(loginRequestDto.getPassword(),savedUser.getPassword()))
                 .switchIfEmpty(Mono.error(new WrongCredentialsException("login authentication failed")));
     }
-
-    @Override
-    public Mono<Authentication> authenticate(Authentication authentication) {
-//        return Mono.just(jwtTokenUtil.validateToken(authentication.getCredentials().toString()))
-//                .filter(valid -> true)
-//                .switchIfEmpty(Mono.empty())
-//                .flatMap(isValid -> jwtTokenUtil.extractAllClaims(authentication.getCredentials().toString()))
-//                .map(claims -> {
-//                    return new UsernamePasswordAuthenticationToken(
-//                            claims.getSubject(),
-//                            null,
-//                            Collections.singletonList(new SimpleGrantedAuthority(claims.get(KEY_ROLE).toString()))
-//                    );
-//                });
-        return null;
-    }
-
 }

@@ -9,8 +9,8 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
-import static com.jobify.microservices.utilities.StaticStringUtility.NOT_BLANK;
-import static com.jobify.microservices.utilities.StaticStringUtility.NOT_NULL;
+import static com.jobify.microservices.utilities.StaticConstantsUtil.NOT_BLANK;
+import static com.jobify.microservices.utilities.StaticConstantsUtil.NOT_NULL;
 
 @Data
 @Builder

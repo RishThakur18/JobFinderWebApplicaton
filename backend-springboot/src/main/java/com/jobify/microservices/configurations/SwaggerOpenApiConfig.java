@@ -15,7 +15,7 @@ import org.springframework.context.annotation.Configuration;
         servers = {
                 @Server(
                         url = "http://localhost:8080",
-                        description = "Spring Reactive demo on localhost"
+                        description = "Spring Reactive application on localhost"
                 )
         }
 )

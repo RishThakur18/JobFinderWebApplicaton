@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 import javax.validation.Valid;
 
 @Validated
-public interface AuthService {
+public interface AuthService  {
     Mono<UserDto> signup(@Valid  UserDto userDto);
     Mono<String> login(@Valid LoginRequestDto loginRequestDto);
 }
