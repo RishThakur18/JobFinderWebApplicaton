@@ -8,4 +8,3 @@ public class Authority implements GrantedAuthority {
         return null;
     }
 }
-cd e:

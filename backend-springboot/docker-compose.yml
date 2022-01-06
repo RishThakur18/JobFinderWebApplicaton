@@ -1,0 +1,21 @@
+version: "3"
+services:
+  mongoDb_local:
+    image: mongo
+    volumes:
+      - database:/var/lib/database
+    ports:
+      - "27018:27017"
+
+  jobify-backend:
+    build: .
+    volumes:
+      - logs:/var/lib/logs
+    ports:
+      - "6050:8080"
+
+volumes:
+  logs:
+  database:
+
+
