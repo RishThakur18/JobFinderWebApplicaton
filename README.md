@@ -1,2 +1,2 @@
-# JobFinderWebApplicaton
-fullstack spingboot+react web application
+# Jobify WebApplication
+springboot backend for job portal web application
