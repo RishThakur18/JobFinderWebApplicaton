@@ -13,7 +13,7 @@ public class HealthController {
     @GetMapping()
     public Mono<ResponseDto> health(){
         return Mono.just(ResponseDto.builder()
-                .message("Application running successfully!")
+                .message("Application is up and running successfully!")
                 .build());
     }
 }
