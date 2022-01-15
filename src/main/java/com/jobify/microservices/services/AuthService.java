@@ -9,6 +9,8 @@ import javax.validation.Valid;
 
 @Validated
 public interface AuthService  {
-    Mono<UserDto> signup(@Valid  UserDto userDto);
+
+    Mono<Boolean> registerEmail(@Valid String email);
+    Mono<Boolean> verifyMail(@Valid String string, @Valid String otp);
     Mono<String> login(@Valid LoginRequestDto loginRequestDto);
 }

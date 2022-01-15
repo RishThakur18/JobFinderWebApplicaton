@@ -1,10 +1,8 @@
 package com.jobify.microservices.exceptionHandling;
 
 import com.jobify.microservices.entities.dtos.ResponseDto;
-import com.jobify.microservices.exceptionHandling.customExceptions.AuthorizationException;
-import com.jobify.microservices.exceptionHandling.customExceptions.UserAlreadyExistsException;
-import com.jobify.microservices.exceptionHandling.customExceptions.UserNotFoundException;
-import com.jobify.microservices.exceptionHandling.customExceptions.WrongCredentialsException;
+import com.jobify.microservices.entities.enums.CustomException;
+import com.jobify.microservices.exceptionHandling.customExceptions.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
@@ -23,8 +21,8 @@ public class ControllerAdvice {
             ConstraintViolationException.class
             })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public Mono<ResponseDto> constraintViolationException(final Exception e){
-        return this.errorResponseBuilder(e);
+    public Mono<ResponseDto> bad_request(final Exception e){
+        return errorResponseBuilder(e);
     }
 
 
@@ -33,8 +31,8 @@ public class ControllerAdvice {
             UserAlreadyExistsException.class
     })
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
-    public Mono<ResponseDto> userNotFoundException(final Exception e){
-        return this.errorResponseBuilder(e);
+    public Mono<ResponseDto> not_acceptable(final Exception e){
+        return errorResponseBuilder(e);
     }
 
 
@@ -43,15 +41,24 @@ public class ControllerAdvice {
             AuthorizationException.class
     })
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
-    public Mono<ResponseDto> responseStatusUnauthorized(final Exception e) {
-        return this.errorResponseBuilder(e);
+    public Mono<ResponseDto> unauthorized(final Exception e) {
+        return errorResponseBuilder(e);
+    }
+
+    @ExceptionHandler(value = {
+            MailNotSentException.class,
+    })
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public Mono<ResponseDto> internal_server_error(final Exception e) {
+        return errorResponseBuilder(e);
     }
 
 
-    private Mono<ResponseDto> errorResponseBuilder(Exception e){
+
+    private static Mono<ResponseDto> errorResponseBuilder(Exception e){
         return Mono.just(ResponseDto
                         .builder()
-                        .message(ExceptionsList.valueOf(e.getClass().getSimpleName()).getMessage())
+                        .message(CustomException.valueOf(e.getClass().getSimpleName()).getMessage())
                         .exception(e.getClass().getName())
                         .reason(e.getMessage())
                         .build())

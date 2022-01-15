@@ -8,6 +8,7 @@ import reactor.core.publisher.Mono;
 
 public interface UserService {
     Flux<UserDto> viewAll();
+    Mono<UserDto> addUser(UserDto userDto);
     Mono<UserDto> viewUser(String id);
     Mono<UserDto> updateUser(String id, UserDto userDto);
     Mono<String> deleteUser(String id);

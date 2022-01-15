@@ -1,5 +1,6 @@
 package com.jobify.microservices.security;
 
+import com.jobify.microservices.entities.enums.CustomException;
 import com.jobify.microservices.exceptionHandling.customExceptions.AuthorizationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;

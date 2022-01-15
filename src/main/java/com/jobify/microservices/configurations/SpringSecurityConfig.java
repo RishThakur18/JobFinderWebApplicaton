@@ -1,6 +1,5 @@
 package com.jobify.microservices.configurations;
 
-import com.jobify.microservices.security.ReactiveAuthenticationManagerCustom;
 import com.jobify.microservices.security.ServerSecurityContextRepositoryCustom;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +13,7 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @Configuration
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
-public class SpringSecurityConfig  {
+public class SpringSecurityConfig {
     private static final String[] WHITELISTED_URLS = {
             "/health",
             "/auth/**",
