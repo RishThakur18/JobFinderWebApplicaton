@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AwsServiceConfig  {
 
-    @Value("AKIA23MKOMZOSA7QJYAY")
+    @Value("${aws.access.key}")
     private String accessKey;
 
-    @Value("tjBUiA64PTAjlE8BunsjqZh5meEHzS8R93T6gz/K")
+    @Value("${aws.secret.key}")
     private String secretKey;
 
 //    @Bean
