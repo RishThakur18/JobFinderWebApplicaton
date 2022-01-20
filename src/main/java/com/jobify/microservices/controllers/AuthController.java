@@ -5,11 +5,14 @@ import com.jobify.microservices.entities.dtos.ResponseDto;
 import com.jobify.microservices.entities.dtos.UserDto;
 import com.jobify.microservices.services.AuthService;
 import lombok.AllArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.parameters.P;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+@Log4j2
 @AllArgsConstructor
 @RequestMapping("/auth")
 @RestController

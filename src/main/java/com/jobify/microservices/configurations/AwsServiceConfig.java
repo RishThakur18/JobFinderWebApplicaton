@@ -20,16 +20,6 @@ public class AwsServiceConfig  {
     @Value("${aws.secret.key}")
     private String secretKey;
 
-//    @Bean
-//    public AmazonS3 createAmazonS3() {
-//
-//        log.info("createAmazonS3 -> (accessKey) {} (secretKey) {}", accessKey, secretKey);
-//        return AmazonS3ClientBuilder.standard()
-//                .withCredentials(new AWSStaticCredentialsProvider(new BasicAWSCredentials(accessKey, secretKey)))
-//                .withRegion(Regions.EU_WEST_1)
-//                .build();
-//    }
-
     @Bean
     public AmazonSimpleEmailService createAmazonSes() {
         return AmazonSimpleEmailServiceClientBuilder.standard()
