@@ -1,7 +1,6 @@
 package com.jobify.microservices.services;
 
 import com.jobify.microservices.entities.dtos.LoginRequestDto;
-import com.jobify.microservices.entities.dtos.UserDto;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 

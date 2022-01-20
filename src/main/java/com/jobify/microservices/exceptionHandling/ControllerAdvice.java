@@ -17,37 +17,27 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class ControllerAdvice {
 
-    @ExceptionHandler(value = {
-            ConstraintViolationException.class
-            })
+    @ExceptionHandler(value = { ConstraintViolationException.class })
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Mono<ResponseDto> bad_request(final Exception e){
         return errorResponseBuilder(e);
     }
 
 
-    @ExceptionHandler(value = {
-            UserNotFoundException.class,
-            UserAlreadyExistsException.class
-    })
+    @ExceptionHandler(value = { UserNotFoundException.class, UserAlreadyExistsException.class})
     @ResponseStatus(HttpStatus.NOT_ACCEPTABLE)
     public Mono<ResponseDto> not_acceptable(final Exception e){
         return errorResponseBuilder(e);
     }
 
 
-    @ExceptionHandler(value = {
-            WrongCredentialsException.class,
-            AuthorizationException.class
-    })
+    @ExceptionHandler(value = { WrongCredentialsException.class, AuthorizationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public Mono<ResponseDto> unauthorized(final Exception e) {
         return errorResponseBuilder(e);
     }
 
-    @ExceptionHandler(value = {
-            MailNotSentException.class,
-    })
+    @ExceptionHandler(value = { MailNotSentException.class,})
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Mono<ResponseDto> internal_server_error(final Exception e) {
         return errorResponseBuilder(e);
