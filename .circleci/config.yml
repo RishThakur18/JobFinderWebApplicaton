@@ -5,8 +5,8 @@ jobs:
     docker:
       - image: circleci/openjdk:17-jdk
         auth:
-          username: "rishabhsingh18"
-          password: "Intheend$18"
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
 
     working_directory: ~/repo
 
