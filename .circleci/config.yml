@@ -2,7 +2,10 @@ version: 2.1
 workflows:
   build-test-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+              branches:
+                  only: main
       - test:
           requires:
             - build
@@ -18,6 +21,7 @@ jobs:
           password: ${DOCKER_PASSWORD}
     steps:
       - checkout
+      - run: gradle clean build
   test:
     docker:
       - image: cimg/openjdk:17.0.1
@@ -26,8 +30,8 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - run: gradle dependencies
-      - run: gradle clean build
+      - run: gradle test
+    
 
   deploy:
     machine: true
