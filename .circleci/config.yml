@@ -2,7 +2,10 @@ version: 2.1
 workflows:
   build-test-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+              branches:
+                  only: main
       - test:
           requires:
             - build
