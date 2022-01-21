@@ -1,9 +1,11 @@
 package com.jobify.microservices.entities.models;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.jobify.microservices.entities.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -17,8 +19,9 @@ import java.util.Collections;
 import java.util.List;
 
 @Data
-@AllArgsConstructor
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "user_details")
 public class User implements UserDetails {
     @Id

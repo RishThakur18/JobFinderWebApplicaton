@@ -17,7 +17,6 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@Order(1)
 @Log4j2
 @RequiredArgsConstructor
 @Service

@@ -1,0 +1,18 @@
+{
+  "properties": [
+    {
+      "name": "aws.access.key",
+      "type": "java.lang.String",
+      "description": "Description for aws.access.key."
+    },
+    {
+      "name": "aws.secret.key",
+      "type": "java.lang.String",
+      "description": "Description for aws.secret.key."
+    },
+    {
+      "name": "email.sender",
+      "type": "java.lang.String",
+      "description": "Description for email.sender."
+    }
+  ] }

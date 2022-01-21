@@ -14,14 +14,15 @@ import org.springframework.security.web.server.SecurityWebFilterChain;
 @EnableWebFluxSecurity
 @RequiredArgsConstructor
 public class SpringSecurityConfig {
+
+    private final ServerSecurityContextRepositoryCustom serverSecurityContextRepositoryCustom;
+
     private static final String[] WHITELISTED_URLS = {
             "/health",
             "/auth/**",
             "/webjars/**",
             "/v3/api-docs/**",
     };
-
-    private final ServerSecurityContextRepositoryCustom serverSecurityContextRepositoryCustom;
 
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http) {

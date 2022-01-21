@@ -21,16 +21,16 @@ public class AuthController {
     private final AuthService authService;
 
 
-    @GetMapping(value ="/signup/{email}")
+    @GetMapping(value ="/verify/{email}")
     public Mono<ResponseDto> registerMail(@PathVariable(name="email")final String email) {
-        return authService.registerEmail(email)
+        return authService.sendVerificationEmail(email)
                 .map(data -> ResponseDto
                         .builder()
                         .message("verification mail sent successfully")
                         .build());
     }
 
-    @GetMapping(value ="/verify/{email}/")
+    @GetMapping(value ="/verify/{email}/{otp}")
     public Mono<ResponseDto> verifyMail(@PathVariable(name="email") final String email, @RequestParam(name="otp")final String otp) {
         return authService.verifyMail(email,otp)
                 .map(data -> ResponseDto
@@ -40,17 +40,15 @@ public class AuthController {
                         .build());
     }
 
-//    @PostMapping(value ="/signup/{email}")
-//    public Mono<ResponseDto> signUp(@RequestBody final UserDto userDto) {
-//        return authService.signup(userDto)
-//                .map(data -> ResponseDto
-//                        .builder()
-//                        .message("Signup Successful")
-//                        .data(data)
-//                        .build());
-//    }
-
-
+    @PostMapping(value ="/signup")
+    public Mono<ResponseDto> signUp(@RequestBody final UserDto userDto) {
+        return authService.signup(userDto)
+                .map(data -> ResponseDto
+                        .builder()
+                        .message("Signup Successful")
+                        .data(data)
+                        .build());
+    }
 
     @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
     public Mono<ResponseDto> logIn(@RequestBody LoginRequestDto loginRequestDto) {
