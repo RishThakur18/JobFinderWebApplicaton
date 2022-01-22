@@ -1,19 +1,9 @@
-version: 2.1
-workflows:
-  build-test-deploy:
-    jobs:
-      - build:
-          filters:
-              branches:
-                  only: main
-      - test:
-          requires:
-            - build
-      - deploy:
-          requires:
-            - test
+version: 2
 jobs:
   build:
+    environment:
+      _JAVA_OPTIONS: "-Xmx3g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:17.0.1
         auth:
@@ -21,27 +11,38 @@ jobs:
           password: ${DOCKER_PASSWORD}
     steps:
       - checkout
-      - run: gradle clean build
-  test:
-    docker:
-      - image: cimg/openjdk:17.0.1
-        auth:
-          username: $DOCKER_USERNAME
-          password: $DOCKER_PASSWORD
-    steps:
-      - checkout
-      - run: gradle test
-    
-
-  deploy:
-    machine: true
-    steps:
-      - checkout
+      - restore_cache:
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - restore_cache:
+          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
       - run:
-          name: Build and push Docker image to Heroku
+          name: Run tests
           command: |
-            set -x
-            sudo curl https://cli-assets.heroku.com/install.sh | sh
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jobify-backend-prod web
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jobify-backend-prod web
+            ./gradlew test
+      - save_cache:
+          paths:
+            - ~/.gradle/wrapper
+          key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+      - save_cache:
+          paths:
+            - ~/.gradle/caches
+          key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
+      - store_test_results:
+          path: build/test-results/test
+      - store_artifacts:
+          path: build/test-results/test
+      - run:
+          name: Assemble JAR
+          command: |
+            # Skip this for other nodes
+            if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
+              ./gradlew assemble
+            fi
+      # As the JAR was only assembled in the first build container, build/libs will be empty in all the other build containers.
+      - store_artifacts:
+          path: build/libs
+workflows:
+  version: 2
+  workflow:
+    jobs:
+      - build
