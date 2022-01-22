@@ -18,6 +18,7 @@ jobs:
       - run:
           name: Run tests
           command: |
+            chmod +x gradlew
             ./gradlew test
       - save_cache:
           paths:
