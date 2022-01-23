@@ -45,7 +45,7 @@ plugins {
 docker {
     dependsOn(tasks.bootJar.get())
     name = "demo"
-    files(tasks.bootJar.get().archiveFileName)
+    files("build/libs/${tasks.bootJar.get().archiveFileName.get()}")
     buildArgs(mapOf("JAR_FILE" to tasks.bootJar.get().archiveFileName.get()))
     tag("dockerHub", "jobify-backend:0.1.0")
 }
