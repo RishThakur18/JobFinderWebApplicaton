@@ -1,3 +1,13 @@
+workflows:
+  build-test-deploy:
+    jobs:
+      - build
+      - test
+      - deploy:
+          requires:
+            - build
+            - test
+
 version: 2.1
 jobs:
   build:
@@ -63,11 +73,3 @@ jobs:
 #            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
 #            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jobify-backend-prod web
 #            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jobify-backend-prod web
-#workflows:
-#  version: 2
-#  workflow:
-#    jobs:
-#      - build
-#      - deploy:
-#          requires:
-#            - build
