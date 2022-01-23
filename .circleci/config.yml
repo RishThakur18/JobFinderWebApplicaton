@@ -5,10 +5,9 @@ workflows:
       - test:
           requires:
             - build
-      - dock
-#      - deploy:
-#          requires:
-#            - test
+      - deploy:
+          requires:
+            - test
 
 version: 2.1
 jobs:
