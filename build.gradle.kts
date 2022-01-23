@@ -6,6 +6,7 @@ java.sourceCompatibility = JavaVersion.VERSION_17
 repositories {
     maven {
         mavenLocal()
+        mavenCentral()
         url = uri("https://repo.maven.apache.org/maven2/")
     }
 }
@@ -38,5 +39,15 @@ apply(plugin = "io.spring.dependency-management")
 plugins {
     java
     id("org.springframework.boot") version "2.6.2"
+    id("com.palantir.docker") version "0.32.0"
 }
+
+docker {
+    dependsOn(tasks.build.get())
+    name = "demo"
+    files("build/libs/${tasks.bootJar.get().archiveFileName.get()}")
+    buildArgs(mapOf("JAR_FILE" to tasks.bootJar.get().archiveFileName.get()))
+    tag("dockerHub", "jobify-backend:0.1.0")
+}
+
 

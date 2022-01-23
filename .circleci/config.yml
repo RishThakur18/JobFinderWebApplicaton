@@ -5,9 +5,6 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
-          requires:
-            - test
 
 version: 2.1
 jobs:
@@ -17,11 +14,11 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:17.0.1
-        auth:
-          username: ${DOCKER_USERNAME}
-          password: ${DOCKER_PASSWORD}
     steps:
       - checkout
+      - run:
+          name: dockerhub login
+          command:  docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
@@ -30,7 +27,7 @@ jobs:
           name: Load dependencies
           command: |
             chmod +x gradlew
-            ./gradlew assemble
+            ./gradlew build docker dockerPush
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -60,19 +57,7 @@ jobs:
           name: Run tests
           command: |
             chmod +x gradlew
-            ./gradlew test
+            ./gradlew test docker
 
-  deploy:
-    machine: true
-    steps:
-      - checkout
-      - attach_workspace:
-            at: .
-      - run:
-          name: Build and push Docker image to Heroku
-          command: |
-            set -x
-            sudo curl https://cli-assets.heroku.com/install.sh | sh
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jobify-backend-prod web
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jobify-backend-prod web
+ 
+
