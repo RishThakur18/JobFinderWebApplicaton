@@ -5,9 +5,9 @@ workflows:
       - test:
           requires:
             - build
-      - deploy:
-          requires:
-            - test
+#      - deploy:
+#          requires:
+#            - test
 
 version: 2.1
 jobs:
