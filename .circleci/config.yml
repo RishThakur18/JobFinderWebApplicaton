@@ -16,6 +16,8 @@ jobs:
       - image: cimg/openjdk:17.0.1
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - run:
           name: dockerhub login
           command:  docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
