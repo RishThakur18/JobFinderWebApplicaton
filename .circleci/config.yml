@@ -43,13 +43,13 @@ jobs:
           password: ${DOCKER_PASSWORD}
     steps:
       - checkout
-      - attach_workspace
-        at: .
-      -run:
+      - attach_workspace:
+          at: .
+      - run:
           name: Run tests
-            command: |
-              chmod +x gradlew
-              ./gradlew test
+          command: |
+            chmod +x gradlew
+            ./gradlew test
 
 #  deploy:
 #    machine: true
