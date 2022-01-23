@@ -43,7 +43,7 @@ plugins {
 }
 
 docker {
-    dependsOn(tasks.build.get())
+    dependsOn(tasks.bootJar.get())
     name = "demo"
     files("build/libs/${tasks.bootJar.get().archiveFileName.get()}")
     buildArgs(mapOf("JAR_FILE" to tasks.bootJar.get().archiveFileName.get()))
