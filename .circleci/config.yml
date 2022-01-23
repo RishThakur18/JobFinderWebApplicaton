@@ -5,7 +5,9 @@ workflows:
       - test:
           requires:
             - build
-
+      -  pushToDockerHub:
+           requires:
+             - test
 version: 2.1
 jobs:
   build:
@@ -16,11 +18,6 @@ jobs:
       - image: cimg/openjdk:17.0.1
     steps:
       - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-      - run:
-          name: dockerhub login
-          command:  docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
       - restore_cache:
           key: v1-gradle-wrapper-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
       - restore_cache:
@@ -29,7 +26,7 @@ jobs:
           name: Load dependencies
           command: |
             chmod +x gradlew
-            ./gradlew build docker dockerPush
+            ./gradlew build
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -48,9 +45,6 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:17.0.1
-        auth:
-          username: ${DOCKER_USERNAME}
-          password: ${DOCKER_PASSWORD}
     steps:
       - checkout
       - attach_workspace:
@@ -59,7 +53,30 @@ jobs:
           name: Run tests
           command: |
             chmod +x gradlew
-            ./gradlew test docker
+            ./gradlew test 
+
+  pushToDockerHub:
+    environment:
+      _JAVA_OPTIONS: "-Xmx2g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: cimg/openjdk:17.0.1
+
+    steps:
+      - checkout
+      - setup_remote_docker:
+            docker_layer_caching: true
+      - run:
+          name: dockerhub login
+          command: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
+      - attach_workspace:
+          at: .
+      - run:
+          name: Push To Docker hub
+          command: |
+            chmod +x gradlew
+            ./gradlew docker dockerTagDockerHub dockerPushDockerHub
+            
 
  
 

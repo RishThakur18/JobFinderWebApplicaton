@@ -47,7 +47,7 @@ docker {
     name = "demo"
     files("build/libs/${tasks.bootJar.get().archiveFileName.get()}")
     buildArgs(mapOf("JAR_FILE" to tasks.bootJar.get().archiveFileName.get()))
-    tag("dockerHub", "jobify-backend:0.1.0")
+    tag("dockerHub", "rishabhsingh18/jobify-backend:0.1.0")
 }
 
 
