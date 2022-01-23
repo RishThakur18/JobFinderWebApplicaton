@@ -1,1 +1,1 @@
-rootProject.name = "jobify-microservices"
+rootProject.name = "jobify-backend"

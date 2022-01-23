@@ -1,8 +1,8 @@
-version: 2
+version: 2.1
 jobs:
   build:
     environment:
-      _JAVA_OPTIONS: "-Xmx3g"
+      _JAVA_OPTIONS: "-Xmx2g"
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:17.0.1
@@ -16,10 +16,10 @@ jobs:
       - restore_cache:
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
       - run:
-          name: Run tests
+          name: Load dependencies
           command: |
             chmod +x gradlew
-            ./gradlew test
+            ./gradlew assemble
       - save_cache:
           paths:
             - ~/.gradle/wrapper
@@ -28,38 +28,46 @@ jobs:
           paths:
             - ~/.gradle/caches
           key: v1-gradle-cache-{{ checksum "build.gradle.kts" }}
-      - store_test_results:
-          path: build/test-results/test
-      - store_artifacts:
-          path: build/test-results/test
-      - run:
-          name: Assemble JAR
-          command: |
-            # Skip this for other nodes
-            if [ "$CIRCLE_NODE_INDEX" == 0 ]; then
-              ./gradlew assemble
-            fi
-      # As the JAR was only assembled in the first build container, build/libs will be empty in all the other build containers.
-      - store_artifacts:
-          path: build/libs
-
-  deploy:
-    machine: true
+      - persist_to_workspace:
+          root: .
+          paths:
+            - build
+  test:
+    environment:
+      _JAVA_OPTIONS: "-Xmx2g"
+      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
+    docker:
+      - image: cimg/openjdk:17.0.1
+        auth:
+          username: ${DOCKER_USERNAME}
+          password: ${DOCKER_PASSWORD}
     steps:
       - checkout
-      - run:
-          name: Build and push Docker image to Heroku
-          command: |
-            set -x
-            sudo curl https://cli-assets.heroku.com/install.sh | sh
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jobify-backend-prod web
-            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jobify-backend-prod web
-workflows:
-  version: 2
-  workflow:
-    jobs:
-      - build
-      - deploy:
-          requires:
-            - build
+      - attach_workspace
+        at: .
+      -run:
+          name: Run tests
+            command: |
+              chmod +x gradlew
+              ./gradlew test
+
+#  deploy:
+#    machine: true
+#    steps:
+#      - checkout
+#      - run:
+#          name: Build and push Docker image to Heroku
+#          command: |
+#            set -x
+#            sudo curl https://cli-assets.heroku.com/install.sh | sh
+#            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:login
+#            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:push -a jobify-backend-prod web
+#            HEROKU_API_KEY=${HEROKU_API_KEY} heroku container:release -a jobify-backend-prod web
+#workflows:
+#  version: 2
+#  workflow:
+#    jobs:
+#      - build
+#      - deploy:
+#          requires:
+#            - build
