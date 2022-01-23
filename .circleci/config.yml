@@ -3,10 +3,10 @@ workflows:
     jobs:
       - build
       - test
-      - deploy:
-          requires:
-            - build
-            - test
+#      - deploy:
+#          requires:
+#            - build
+#            - test
 
 version: 2.1
 jobs:
