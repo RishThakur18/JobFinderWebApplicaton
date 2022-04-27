@@ -2,6 +2,14 @@ group = "com.jobify"
 version = "0.0.1-SNAPSHOT"
 description = "jobify-microservices"
 java.sourceCompatibility = JavaVersion.VERSION_17
+java.targetCompatibility = JavaVersion.VERSION_17
+
+plugins {
+    java
+    id("org.springframework.boot") version "2.6.2"
+    id("io.spring.dependency-management") version "1.0.11.RELEASE"
+    id("com.palantir.docker") version "0.32.0"
+}
 
 repositories {
     maven {
@@ -18,6 +26,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-mail")
     implementation("org.springframework.boot:spring-boot-configuration-processor")
+
     implementation("com.amazonaws:aws-java-sdk-ses:1.12.141")
     implementation("io.jsonwebtoken:jjwt:0.9.1")
     implementation("org.springdoc:springdoc-openapi-webflux-ui:1.6.3")
@@ -34,20 +43,14 @@ dependencies {
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 }
 
-apply(plugin = "io.spring.dependency-management")
-
-plugins {
-    java
-    id("org.springframework.boot") version "2.6.2"
-    id("com.palantir.docker") version "0.32.0"
-}
-
 docker {
     dependsOn(tasks.bootJar.get())
     name = "demo"
     files("build/libs/${tasks.bootJar.get().archiveFileName.get()}")
     buildArgs(mapOf("JAR_FILE" to tasks.bootJar.get().archiveFileName.get()))
-    tag("dockerHub", "rishabhsingh18/jobify-backend:0.1.0")
+    tag("dockerHub", "rishabhsingh18/${project.name}:${project.version}")
 }
+
+
 
 

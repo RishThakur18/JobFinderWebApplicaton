@@ -1,5 +1,7 @@
+version: 2.1
+
 workflows:
-  build-test-deploy:
+  build-test-pushToDockerHub-deploy:
     jobs:
       - build
       - test:
@@ -8,7 +10,9 @@ workflows:
       -  pushToDockerHub:
            requires:
              - test
-version: 2.1
+      -  deploy:
+           requires:
+             - pushToDockerHub
 jobs:
   build:
     environment:
@@ -61,11 +65,10 @@ jobs:
       GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
     docker:
       - image: cimg/openjdk:17.0.1
-
     steps:
       - checkout
       - setup_remote_docker:
-            docker_layer_caching: true
+          docker_layer_caching: true
       - run:
           name: dockerhub login
           command: docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
@@ -77,6 +80,21 @@ jobs:
             chmod +x gradlew
             ./gradlew docker dockerTagDockerHub dockerPushDockerHub
             
-
+  deploy:
+    docker:
+      - image: rishthakur18/jobify-backend:0.1.0
+        auth:
+          username: ${DOCKER_USERNAME}
+          password: ${DOCKER_PASSWORD}
+    steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
+            name: Build and push Docker image to Heroku
+              command: |
+                docker pull rishabhsingh18/jobify-backend
+                sudo curl https://cli-assets.heroku.com/install.sh | sh
+                HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
+                HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:push -a python-django-starter web
+                HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:release -a python-django-starter web
  
 
