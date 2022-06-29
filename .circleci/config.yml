@@ -82,7 +82,7 @@ jobs:
             
   deploy:
     docker:
-    - image: rishthakur18/jobify-backend:0.0.1-SNAPSHOT
+    - image: cimg/openjdk:17.0.1
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
