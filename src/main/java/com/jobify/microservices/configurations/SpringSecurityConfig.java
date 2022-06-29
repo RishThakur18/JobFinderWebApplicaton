@@ -18,7 +18,6 @@ public class SpringSecurityConfig {
     private final ServerSecurityContextRepositoryCustom serverSecurityContextRepositoryCustom;
 
     private static final String[] WHITELISTED_URLS = {
-            "*",
             "/health",
             "/auth/**",
             "/webjars/**",

@@ -50,7 +50,7 @@ public class AuthController {
                         .build());
     }
 
-    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(value = "/login")
     public Mono<ResponseDto> logIn(@RequestBody LoginRequestDto loginRequestDto) {
         return authService.login(loginRequestDto)
                 .map(token -> ResponseDto
