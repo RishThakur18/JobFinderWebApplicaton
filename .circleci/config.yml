@@ -82,7 +82,7 @@ jobs:
             
   deploy:
     docker:
-      - image: rishthakur18/jobify-backend:0.1.0-SNAPSHOT
+      - image: rishthakur18/jobify-backend:0.0.1-SNAPSHOT
         auth:
           username: ${DOCKER_USERNAME}
           password: ${DOCKER_PASSWORD}
