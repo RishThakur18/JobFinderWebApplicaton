@@ -81,17 +81,15 @@ jobs:
             ./gradlew docker dockerTagDockerHub dockerPushDockerHub
             
   deploy:
-    docker:
-      - image: rishthakur18/jobify-backend:0.0.1-SNAPSHOT
-        auth:
-          username: ${DOCKER_USERNAME}
-          password: ${DOCKER_PASSWORD}
+    machine:
+      image: ubuntu-2204:2022.04.1
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
       - run:
           name: Build_and_push_Docker_image to Heroku
           command: |
+            docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}
             docker pull rishabhsingh18/jobify-backend:0.0.1-SNAPSHOT
             sudo curl https://cli-assets.heroku.com/install.sh | sh
             HEROKU_API_KEY=${HEROKU_TOKEN} heroku container:login
